@@ -1,22 +1,31 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './App.css';
+import Register from './components/Register';
+import Login from './components/Login';
+import Profile from './components/Profile';
 
 function App() {
-  const [status, setStatus] = useState('Loading...');
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
 
-  useEffect(() => {
-    fetch('/api/status')
-      .then(res => res.json())
-      .then(data => setStatus(data.message))
-      .catch(() => setStatus('Error fetching status'));
-  }, []);
+  const handleLogin = () => setIsLoggedIn(true);
+  const handleRegister = () => setIsLoggedIn(true);
+  const handleLogout = () => setIsLoggedIn(false);
 
   return (
     <div className="App">
       <header className="App-header">
         <h1>SmartBank Portal</h1>
-        <p>Backend says: {status}</p>
       </header>
+
+      <main>
+        {!isLoggedIn && (
+          <>
+            <Register onRegister={handleRegister} />
+            <Login onLogin={handleLogin} />
+          </>
+        )}
+        {isLoggedIn && <Profile onLogout={handleLogout} />}
+      </main>
     </div>
   );
 }

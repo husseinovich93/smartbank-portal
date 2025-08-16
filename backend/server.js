@@ -22,6 +22,10 @@ connectDB();
 app.get('/', (req, res) => {
   res.send('Backend connected to MongoDB!');
 });
+// Test route
+app.get('/api/status', (req, res) => {
+  res.json({ message: 'Backend is up and running!' });
+});
 
 // Start server
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
